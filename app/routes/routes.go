@@ -21,22 +21,24 @@ type RouteControllerList struct {
 }
 
 func (controller RouteControllerList) RouteRegister(r *gin.Engine) {
-	r.Use(middleware.TokenAuthMiddleware())
+	authRoute := r.Group("")
+	authRoute.Use(middleware.TokenAuthMiddleware())
+
 	// User Controller
 	r.POST("/auth/register", controller.UserController.Register)
 	r.POST("/auth/login", controller.UserController.Login)
 
 	// Quiz Controller
-	r.POST("/quiz/create", controller.QuizController.CreateQuiz)
-	r.DELETE("/quiz/delete/:id", controller.QuizController.DeleteQuiz)
-	r.POST("/quiz/:id_quiz/question/:id_question", controller.ParticipantController.AnswerQuestion)
+	authRoute.POST("/quiz/create", controller.QuizController.CreateQuiz)
+	authRoute.DELETE("/quiz/delete/:id", controller.QuizController.DeleteQuiz)
+	authRoute.POST("/quiz/:id_quiz/question/:id_question", controller.ParticipantController.AnswerQuestion)
 
 	// Question Controller
-	r.POST("/question/create", controller.QuestionController.CreateQuestion)
-	r.GET("/quiz/:id/questions", controller.QuestionController.GetQuestion)
-	r.DELETE("/question/:id/delete", controller.QuestionController.DeleteQuestion)
+	authRoute.POST("/question/create", controller.QuestionController.CreateQuestion)
+	authRoute.GET("/quiz/:id/questions", controller.QuestionController.GetQuestion)
+	authRoute.DELETE("/question/:id/delete", controller.QuestionController.DeleteQuestion)
 
 	// Answer Controller
-	r.POST("/answer/create", controller.AnswerController.CreateAnswer)
-	r.DELETE("/answer/:id/delete", controller.AnswerController.DeleteAnswer)
+	authRoute.POST("/answer/create", controller.AnswerController.CreateAnswer)
+	authRoute.DELETE("/answer/:id/delete", controller.AnswerController.DeleteAnswer)
 }

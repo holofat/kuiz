@@ -66,22 +66,20 @@ func ExtractToken(r *http.Request) string {
 	return ""
 }
 
-func ExtractTokenAuth(r *http.Request) (*AuthDetails, error) {
+func ExtractTokenAuth(r *http.Request) (string, error) {
 	token, err := VerifyToken(r)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
 		email, ok := claims["email"].(string)
 		if !ok {
-			return nil, err
+			return "", err
 		}
-		return &AuthDetails{
-			Email: email,
-		}, nil
+		return email, nil
 	}
 
-	return nil, err
+	return "", err
 }
