@@ -15,14 +15,14 @@ type UserRepoInterface struct {
 }
 
 // Login provides a mock function with given fields: domain, ctx
-func (_m *UserRepoInterface) Login(domain users.Domain, ctx context.Context) (string, error) {
+func (_m *UserRepoInterface) Login(domain users.Domain, ctx context.Context) (users.Domain, error) {
 	ret := _m.Called(domain, ctx)
 
-	var r0 string
-	if rf, ok := ret.Get(0).(func(users.Domain, context.Context) string); ok {
+	var r0 users.Domain
+	if rf, ok := ret.Get(0).(func(users.Domain, context.Context) users.Domain); ok {
 		r0 = rf(domain, ctx)
 	} else {
-		r0 = ret.Get(0).(string)
+		r0 = ret.Get(0).(users.Domain)
 	}
 
 	var r1 error

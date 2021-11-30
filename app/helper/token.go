@@ -9,13 +9,13 @@ import (
 )
 
 type AuthDetails struct {
-	Email string
+	UserId uint
 }
 
 func GenerateToken(authD AuthDetails) (string, error) {
 	claims := jwt.MapClaims{
 		"authorized": true,
-		"email":      authD.Email,
+		"userId":     authD.UserId,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -66,20 +66,15 @@ func ExtractToken(r *http.Request) string {
 	return ""
 }
 
-func ExtractTokenAuth(r *http.Request) (string, error) {
+func ExtractTokenAuth(r *http.Request) (uint, error) {
 	token, err := VerifyToken(r)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
-
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if ok && token.Valid {
-		email, ok := claims["email"].(string)
-		if !ok {
-			return "", err
-		}
-		return email, nil
+		userId, _ := claims["userId"].(float64)
+		return uint(userId), nil
 	}
-
-	return "", err
+	return 0, err
 }

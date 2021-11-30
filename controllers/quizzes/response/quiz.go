@@ -1,18 +1,19 @@
 package response
 
 import (
+	"kuiz/business/questions"
 	"kuiz/business/quizzes"
 	"time"
 )
 
 type QuizResponse struct {
-	Id        uint      `json:"id"`
-	AuthorId  uint      `json:"author_id"`
-	TitleQuiz string    `json:"title_quiz"`
-	CreatedAt time.Time `json:"created_at"`
-	GivenTime uint      `json:"given_time"`
-	ExpiredAt time.Time `json:"expired_at"`
-	Status    bool      `json:"status"`
+	Id        uint                 `json:"id"`
+	AuthorId  uint                 `json:"author_id"`
+	TitleQuiz string               `json:"title_quiz"`
+	CreatedAt time.Time            `json:"created_at"`
+	GivenTime uint                 `json:"given_time"`
+	ExpiredAt time.Time            `json:"expired_at"`
+	Question  []questions.Question `json:"questiont_list"`
 }
 
 func FromDomain(domain quizzes.Domain) QuizResponse {
@@ -22,6 +23,6 @@ func FromDomain(domain quizzes.Domain) QuizResponse {
 		TitleQuiz: domain.TitleQuiz,
 		CreatedAt: domain.CreatedAt,
 		GivenTime: domain.GivenTime,
-		Status:    domain.Status,
+		Question:  domain.Question,
 	}
 }

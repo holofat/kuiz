@@ -31,7 +31,7 @@ func (repo *QuestionRepository) CreateQuestion(domain questions.Question, ctx co
 func (repo *QuestionRepository) GetQuestion(idQuiz string, ctx context.Context) ([]questions.Question, error) {
 	var questionList listQuestion
 
-	err := repo.db.Where("quiz_id  = ?", idQuiz).Find(&questionList).Error
+	err := repo.db.Preload("Answers").Where("quiz_id  = ?", idQuiz).Find(&questionList).Error
 	if err != nil {
 		return []questions.Question{}, errors.New("Error in database")
 	} else {

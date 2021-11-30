@@ -27,11 +27,11 @@ func (usecase *UserUseCase) Register(domain Domain, ctx context.Context) (Domain
 	return user, nil
 }
 
-func (usecase *UserUseCase) Login(domain Domain, ctx context.Context) (string, error) {
+func (usecase *UserUseCase) Login(domain Domain, ctx context.Context) (Domain, error) {
 
 	user, err := usecase.repo.Login(domain, ctx)
 	if err != nil {
-		return "error", err
+		return domain, err
 	}
 
 	return user, nil

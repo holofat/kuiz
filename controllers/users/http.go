@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"kuiz/app/helper"
 	"kuiz/business/users"
 	"kuiz/controllers"
@@ -45,22 +44,24 @@ func (controller *UserController) Login(c *gin.Context) {
 	err := c.ShouldBindJSON(&userLogin)
 	if err != nil {
 		controllers.ErrorResponse(c, http.StatusBadRequest, "error binding", err)
-	} else {
-		_, err := controller.usecase.Login(*userLogin.ToDomain(), ctx)
-		fmt.Println(userLogin)
-		if err != nil {
-			controllers.ErrorResponse(c, http.StatusUnauthorized, err.Error(), err)
-		} else {
-			var authD helper.AuthDetails
-			authD.Email = userLogin.Email
-
-			token, loginErr := helper.GenerateToken(authD)
-			if loginErr != nil {
-				controllers.ErrorResponse(c, http.StatusForbidden, loginErr.Error(), loginErr)
-			} else {
-				controllers.SuccessResponse(c, token)
-			}
-		}
+		c.Abort()
 	}
+
+	user, err := controller.usecase.Login(*userLogin.ToDomain(), ctx)
+	if err != nil {
+		controllers.ErrorResponse(c, http.StatusUnauthorized, err.Error(), err)
+		c.Abort()
+	}
+
+	var authD helper.AuthDetails
+	authD.UserId = user.Id
+
+	token, loginErr := helper.GenerateToken(authD)
+	if loginErr != nil {
+		controllers.ErrorResponse(c, http.StatusForbidden, loginErr.Error(), loginErr)
+		c.Abort()
+	}
+
+	controllers.SuccessResponse(c, token)
 
 }
