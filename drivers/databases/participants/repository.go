@@ -18,8 +18,13 @@ func NewParticipantRepository(gormDb *gorm.DB) participants.ParticipantRepoInter
 	}
 }
 
-func (repo *ParticipantRepository) AnswerQuestion(domain participants.Participant, ctx context.Context) error {
-	answered := FromDomain(domain)
+func (repo *ParticipantRepository) AnswerQuestion(idUser int, idQuiz int, idAnswer int, idQuestion int, ctx context.Context) error {
+	answered := FromDomain(participants.Participant{
+		AnswerId:   idAnswer,
+		QuizId:     idQuiz,
+		QuestionId: idQuestion,
+		UserId:     idUser,
+	})
 
 	err := repo.db.Create(&answered).Error
 	if err != nil {
