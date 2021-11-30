@@ -21,6 +21,7 @@ func SuccessResponse(c *gin.Context, data interface{}) {
 	res.Meta.Message = "success"
 	res.Data = data
 	c.JSON(http.StatusOK, res)
+	c.Abort()
 }
 
 func ErrorResponse(c *gin.Context, status int, err string, errs error) {
@@ -29,4 +30,5 @@ func ErrorResponse(c *gin.Context, status int, err string, errs error) {
 	res.Meta.Messages = []string{errs.Error()}
 	res.Data = err
 	c.JSON(http.StatusOK, res)
+	c.Abort()
 }
