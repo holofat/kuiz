@@ -5,9 +5,9 @@ import (
 )
 
 type CreateAnswer struct {
-	QuestionId    uint
-	Answer        string
-	CorrectAnswer bool
+	QuestionId    uint   `json:"question_id"`
+	Answer        string `json:"answer"`
+	CorrectAnswer bool   `json:"correct_answer"`
 }
 
 func (answer *CreateAnswer) ToDomain() *answers.Answer {
