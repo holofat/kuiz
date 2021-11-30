@@ -13,8 +13,8 @@ type Answer struct {
 	CorrectAnswer bool
 }
 
-func (answer Answer) ToDomain() answers.Domain {
-	return answers.Domain{
+func (answer Answer) ToDomain() answers.Answer {
+	return answers.Answer{
 		Id:            answer.Id,
 		CreatedAt:     answer.CreatedAt,
 		Answer:        answer.Answer,
@@ -23,7 +23,7 @@ func (answer Answer) ToDomain() answers.Domain {
 	}
 }
 
-func FromDomain(domain answers.Domain) Answer {
+func FromDomain(domain answers.Answer) Answer {
 	return Answer{
 		Id:            domain.Id,
 		QuestionId:    domain.QuestionId,

@@ -7,6 +7,7 @@ import (
 type Participant struct {
 	Id         int
 	UserId     int
+	FullName   string
 	QuizId     int
 	QuestionId int
 	AnswerId   int

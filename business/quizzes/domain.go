@@ -17,11 +17,13 @@ type Domain struct {
 }
 
 type QuizUsecaseInterface interface {
+	GetQuiz(id string, ctx context.Context) (Domain, error)
 	CreateQuiz(domain Domain, ctx context.Context) (Domain, error)
-	DeleteQuiz(id string, domain Domain, ctx context.Context) (Domain, error)
+	DeleteQuiz(id string, currentUserId uint, domain Domain, ctx context.Context) (Domain, error)
 }
 
 type QuizRepoInterface interface {
+	GetQuiz(id string, ctx context.Context) (Domain, error)
 	CreateQuiz(domain Domain, ctx context.Context) (Domain, error)
-	DeleteQuiz(id string, domain Domain, ctx context.Context) (Domain, error)
+	DeleteQuiz(id string, currentUserId uint, domain Domain, ctx context.Context) (Domain, error)
 }

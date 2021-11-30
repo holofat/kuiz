@@ -1,6 +1,7 @@
 package questions
 
 import (
+	"kuiz/business/answers"
 	"kuiz/business/questions"
 	"time"
 )
@@ -10,6 +11,7 @@ type Question struct {
 	CreatedAt        time.Time
 	QuizId           uint
 	QuestionSentence string
+	Answers          []answers.Answer `gorm:"foreignKey:QuestionId"`
 }
 
 func (q Question) ToDomain() questions.Question {

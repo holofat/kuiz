@@ -1,6 +1,7 @@
 package quizzes
 
 import (
+	"kuiz/business/questions"
 	"kuiz/business/quizzes"
 	"time"
 )
@@ -11,6 +12,7 @@ type Quiz struct {
 	TitleQuiz string
 	GivenTime uint
 	AuthorId  uint
+	Question  []questions.Question `gorm:"foreignKey:QuizId"`
 }
 
 func (quiz Quiz) ToDomain() quizzes.Domain {
@@ -20,6 +22,7 @@ func (quiz Quiz) ToDomain() quizzes.Domain {
 		TitleQuiz: quiz.TitleQuiz,
 		GivenTime: quiz.GivenTime,
 		AuthorId:  quiz.AuthorId,
+		Question:  quiz.Question,
 	}
 }
 
