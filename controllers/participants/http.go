@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"kuiz/app/helper"
 	"kuiz/business/participants"
 	"kuiz/controllers"
-	"kuiz/controllers/participants/request"
 	"net/http"
 
 	"strconv"
@@ -23,20 +23,16 @@ func NewParticipantController(usecase participants.ParticipantUsecaseInterface) 
 
 func (controller *ParticipantController) AnswerQuestion(c *gin.Context) {
 	ctx := c.Request.Context()
-	var newAnswered request.AnswerQuestion
+
+	answerId, _ := strconv.Atoi(c.Param("id_answer"))
 	quizId, _ := strconv.Atoi(c.Param("id_quiz"))
 	questionId, _ := strconv.Atoi(c.Param("id_question"))
-	newAnswered.QuestionId = questionId
-	newAnswered.QuizId = quizId
+	extractedUserId, _ := helper.ExtractTokenAuth(c.Request)
 
-	if err := c.ShouldBindJSON(&newAnswered); err != nil {
-		controllers.ErrorResponse(c, http.StatusBadRequest, "error binding", err)
-	} else {
-		err := controller.usecase.AnswerQuestion(*newAnswered.ToDomain(), ctx)
-		if err != nil {
-			controllers.ErrorResponse(c, http.StatusInternalServerError, "error in body", err)
-		} else {
-			controllers.SuccessResponse(c, nil)
-		}
+	err := controller.usecase.AnswerQuestion(int(extractedUserId), quizId, answerId, questionId, ctx)
+
+	if err != nil {
+		controllers.ErrorResponse(c, http.StatusInternalServerError, "error", err)
 	}
+	controllers.SuccessResponse(c, "success")
 }
