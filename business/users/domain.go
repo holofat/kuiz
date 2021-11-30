@@ -20,11 +20,11 @@ type Domain struct {
 }
 
 type UserUsecaseInterface interface {
-	Login(domain Domain, ctx context.Context) (string, error)
+	Login(domain Domain, ctx context.Context) (Domain, error)
 	Register(domain Domain, ctx context.Context) (Domain, error)
 }
 
 type UserRepoInterface interface {
-	Login(domain Domain, ctx context.Context) (string, error)
+	Login(domain Domain, ctx context.Context) (Domain, error)
 	Register(domain Domain, ctx context.Context) (Domain, error)
 }

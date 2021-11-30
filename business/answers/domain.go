@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Domain struct {
+type Answer struct {
 	Id            uint
 	QuestionId    uint
 	CreatedAt     time.Time
@@ -14,11 +14,11 @@ type Domain struct {
 }
 
 type AnswerUsecaseInterface interface {
-	CreateAnswer(domain Domain, ctx context.Context) (Domain, error)
-	DeleteAnswer(id string, domain Domain, ctx context.Context) (Domain, error)
+	CreateAnswer(domain Answer, ctx context.Context) (Answer, error)
+	DeleteAnswer(id string, domain Answer, ctx context.Context) (Answer, error)
 }
 
 type AnswerRepoInterface interface {
-	CreateAnswer(domain Domain, ctx context.Context) (Domain, error)
-	DeleteAnswer(id string, domain Domain, ctx context.Context) (Domain, error)
+	CreateAnswer(domain Answer, ctx context.Context) (Answer, error)
+	DeleteAnswer(id string, domain Answer, ctx context.Context) (Answer, error)
 }

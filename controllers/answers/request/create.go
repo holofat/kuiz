@@ -10,8 +10,8 @@ type CreateAnswer struct {
 	CorrectAnswer bool
 }
 
-func (answer *CreateAnswer) ToDomain() *answers.Domain {
-	return &answers.Domain{
+func (answer *CreateAnswer) ToDomain() *answers.Answer {
+	return &answers.Answer{
 		QuestionId:    answer.QuestionId,
 		Answer:        answer.Answer,
 		CorrectAnswer: answer.CorrectAnswer,

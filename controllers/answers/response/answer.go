@@ -9,7 +9,7 @@ type AnswerResponse struct {
 	CorrectAnswer bool   `json:"correct_answer"`
 }
 
-func FromDomain(domain answers.Domain) AnswerResponse {
+func FromDomain(domain answers.Answer) AnswerResponse {
 	return AnswerResponse{
 		Id:            domain.Id,
 		QuestionId:    domain.QuestionId,

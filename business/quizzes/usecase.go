@@ -17,6 +17,16 @@ func NewUsecase(quizRepo QuizRepoInterface, contextTimeout time.Duration) QuizUs
 	}
 }
 
+func (usecase *QuizUseCase) GetQuiz(id string, ctx context.Context) (Domain, error) {
+	quiz, err := usecase.repo.GetQuiz(id, ctx)
+
+	if err != nil {
+		return Domain{}, err
+	}
+
+	return quiz, nil
+}
+
 func (usecase *QuizUseCase) CreateQuiz(domain Domain, ctx context.Context) (Domain, error) {
 	quiz, err := usecase.repo.CreateQuiz(domain, ctx)
 
@@ -27,8 +37,8 @@ func (usecase *QuizUseCase) CreateQuiz(domain Domain, ctx context.Context) (Doma
 	return quiz, nil
 }
 
-func (usecase *QuizUseCase) DeleteQuiz(id string, domain Domain, ctx context.Context) (Domain, error) {
-	quiz, err := usecase.repo.DeleteQuiz(id, domain, ctx)
+func (usecase *QuizUseCase) DeleteQuiz(id string, currentUserId uint, domain Domain, ctx context.Context) (Domain, error) {
+	quiz, err := usecase.repo.DeleteQuiz(id, currentUserId, domain, ctx)
 
 	if err != nil {
 		return Domain{}, err

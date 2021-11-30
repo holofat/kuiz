@@ -29,6 +29,7 @@ func (controller RouteControllerList) RouteRegister(r *gin.Engine) {
 	r.POST("/auth/login", controller.UserController.Login)
 
 	// Quiz Controller
+	r.GET("/quiz/:id", controller.QuizController.GetQuiz)
 	authRoute.POST("/quiz/create", controller.QuizController.CreateQuiz)
 	authRoute.DELETE("/quiz/delete/:id", controller.QuizController.DeleteQuiz)
 	authRoute.POST("/quiz/:id_quiz/question/:id_question", controller.ParticipantController.AnswerQuestion)

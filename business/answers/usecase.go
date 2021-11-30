@@ -17,21 +17,21 @@ func NewUsecase(answerRepo AnswerRepoInterface, contextTimeout time.Duration) An
 	}
 }
 
-func (uc *AnswerUseCase) CreateAnswer(domain Domain, ctx context.Context) (Domain, error) {
+func (uc *AnswerUseCase) CreateAnswer(domain Answer, ctx context.Context) (Answer, error) {
 	answer, err := uc.repo.CreateAnswer(domain, ctx)
 
 	if err != nil {
-		return Domain{}, err
+		return Answer{}, err
 	}
 
 	return answer, nil
 }
 
-func (uc *AnswerUseCase) DeleteAnswer(id string, domain Domain, ctx context.Context) (Domain, error) {
+func (uc *AnswerUseCase) DeleteAnswer(id string, domain Answer, ctx context.Context) (Answer, error) {
 	answer, err := uc.repo.DeleteAnswer(id, domain, ctx)
 
 	if err != nil {
-		return Domain{}, err
+		return Answer{}, err
 	}
 
 	return answer, nil

@@ -5,7 +5,7 @@ import (
 )
 
 type CreateQuiz struct {
-	AuthorID  uint   `json:"author_id"`
+	AuthorID  uint
 	TitleQuiz string `json:"title"`
 	GivenTime uint   `json:"given_time"`
 }
