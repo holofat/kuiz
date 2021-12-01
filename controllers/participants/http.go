@@ -5,7 +5,6 @@ import (
 	"kuiz/business/participants"
 	"kuiz/controllers"
 	"net/http"
-
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -27,12 +26,13 @@ func (controller *ParticipantController) AnswerQuestion(c *gin.Context) {
 	answerId, _ := strconv.Atoi(c.Param("id_answer"))
 	quizId, _ := strconv.Atoi(c.Param("id_quiz"))
 	questionId, _ := strconv.Atoi(c.Param("id_question"))
+
 	extractedUserId, _ := helper.ExtractTokenAuth(c.Request)
-
 	err := controller.usecase.AnswerQuestion(int(extractedUserId), quizId, answerId, questionId, ctx)
-
 	if err != nil {
 		controllers.ErrorResponse(c, http.StatusInternalServerError, "error", err)
+		c.Abort()
+	} else {
+		controllers.SuccessResponse(c, "success")
 	}
-	controllers.SuccessResponse(c, "success")
 }
