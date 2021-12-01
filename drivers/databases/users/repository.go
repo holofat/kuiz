@@ -31,7 +31,7 @@ func (repo *UserRepository) Register(domain users.Domain, ctx context.Context) (
 	err := repo.db.Create(&userDb).Error
 
 	if err != nil {
-		return users.Domain{}, errors.New("error in database")
+		return users.Domain{}, errors.New(err.Error())
 	}
 
 	return userDb.ToDomain(), nil
@@ -47,7 +47,7 @@ func (repo *UserRepository) Login(domain users.Domain, ctx context.Context) (use
 		if err == gorm.ErrRecordNotFound {
 			return userInput.ToDomain(), errors.New("email not found")
 		}
-		return userInput.ToDomain(), errors.New("error in database")
+		return userInput.ToDomain(), errors.New(err.Error())
 	}
 	foundUserPassword := userDb.Password
 	passwordIsValid := helper.VerifyPassword(userInput.Password, foundUserPassword)

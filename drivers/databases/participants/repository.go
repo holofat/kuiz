@@ -25,10 +25,26 @@ func (repo *ParticipantRepository) AnswerQuestion(idUser int, idQuiz int, idAnsw
 		QuestionId: idQuestion,
 		UserId:     idUser,
 	})
+	var quizCount, questionCount, answerCount int64
+
+	repo.db.Table("quizzes").Where("id = ? ", idQuiz).Count(&quizCount)
+	if quizCount < 1 {
+		return errors.New("quiz id invalid")
+	}
+
+	repo.db.Table("questions").Where("id = ?", idQuestion).Count(&questionCount)
+	if questionCount < 1 {
+		return errors.New("question id invalid")
+	}
+
+	repo.db.Table("answers").Where("id = ?", idAnswer).Count(&answerCount)
+	if answerCount < 1 {
+		return errors.New("answer id invalid")
+	}
 
 	err := repo.db.Create(&answered).Error
 	if err != nil {
-		return errors.New("Error in database")
+		return errors.New(err.Error())
 	}
 	return nil
 }
