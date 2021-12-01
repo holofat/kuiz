@@ -19,6 +19,10 @@ import (
 	answerController "kuiz/controllers/answers"
 	answerRepo "kuiz/drivers/databases/answers"
 
+	participantUseCase "kuiz/business/participants"
+	participantController "kuiz/controllers/participants"
+	participantRepo "kuiz/drivers/databases/participants"
+
 	"kuiz/drivers/mysql"
 	"log"
 	"time"
@@ -43,7 +47,7 @@ func init() {
 }
 
 func dbMigrate(db *gorm.DB) {
-	db.AutoMigrate(&userRepo.User{}, &quizRepo.Quiz{}, &questionRepo.Question{}, &answerRepo.Answer{})
+	db.AutoMigrate(&userRepo.User{}, &quizRepo.Quiz{}, &questionRepo.Question{}, &answerRepo.Answer{}, &participantRepo.Participant{})
 }
 
 func main() {
@@ -78,11 +82,16 @@ func main() {
 	answerUseCaseInterface := answerUseCase.NewUsecase(answerRepoInterface, timeoutContext)
 	answerControllerInterface := answerController.NewAnswerController(answerUseCaseInterface)
 
+	participantRepoInterface := participantRepo.NewParticipantRepository(db)
+	participantUseUseCaseInterface := participantUseCase.NewUsecase(participantRepoInterface, timeoutContext)
+	participantControllerInterface := participantController.NewParticipantController(participantUseUseCaseInterface)
+
 	routesInit := routes.RouteControllerList{
-		UserController:     *userControllerInterface,
-		QuizController:     *quizControllerInterface,
-		QuestionController: *questionControllerInterface,
-		AnswerController:   *answerControllerInterface,
+		UserController:        *userControllerInterface,
+		QuizController:        *quizControllerInterface,
+		QuestionController:    *questionControllerInterface,
+		AnswerController:      *answerControllerInterface,
+		ParticipantController: *participantControllerInterface,
 	}
 
 	routesInit.RouteRegister(r)
