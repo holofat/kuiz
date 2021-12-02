@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"kuiz/business/answers"
 	"kuiz/controllers"
 	"kuiz/controllers/answers/request"
@@ -41,8 +40,8 @@ func (controller *AnswerController) CreateAnswer(c *gin.Context) {
 func (controller *AnswerController) DeleteAnswer(c *gin.Context) {
 	ctx := c.Request.Context()
 	var Answer request.DeleteAnswer
-	id := c.Param("id")
-	fmt.Println(Answer)
+	id := c.Param("id_answer")
+
 	_, err := controller.uc.DeleteAnswer(id, *Answer.ToDomain(), ctx)
 	if err != nil {
 		controllers.ErrorResponse(c, http.StatusInternalServerError, "error", err)

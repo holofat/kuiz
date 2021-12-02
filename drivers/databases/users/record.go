@@ -18,8 +18,8 @@ type User struct {
 	Token     string
 }
 
-func (user User) ToDomain() users.Domain {
-	return users.Domain{
+func (user User) ToDomain() users.User {
+	return users.User{
 		Id:        user.Id,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
@@ -31,7 +31,7 @@ func (user User) ToDomain() users.Domain {
 	}
 }
 
-func FromDomain(domain users.Domain) User {
+func FromDomain(domain users.User) User {
 	return User{
 		Id:        domain.Id,
 		CreatedAt: domain.CreatedAt,

@@ -2,6 +2,7 @@ package questions
 
 import (
 	"context"
+	"kuiz/business/answers"
 	"time"
 )
 
@@ -10,6 +11,7 @@ type Question struct {
 	CreatedAt        time.Time
 	QuizId           uint
 	QuestionSentence string
+	Answer           []answers.Answer
 }
 
 type QuestionUsecaseInterface interface {

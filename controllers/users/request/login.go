@@ -9,8 +9,8 @@ type UserLogin struct {
 	Password string `json:"password"`
 }
 
-func (user *UserLogin) ToDomain() *users.Domain {
-	return &users.Domain{
+func (user *UserLogin) ToDomain() *users.User {
+	return &users.User{
 		Email:    user.Email,
 		Password: user.Password,
 	}

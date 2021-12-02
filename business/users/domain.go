@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Domain struct {
+type User struct {
 	Id        uint
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -20,11 +20,11 @@ type Domain struct {
 }
 
 type UserUsecaseInterface interface {
-	Login(domain Domain, ctx context.Context) (Domain, error)
-	Register(domain Domain, ctx context.Context) (Domain, error)
+	Login(domain User, ctx context.Context) (User, error)
+	Register(domain User, ctx context.Context) (User, error)
 }
 
 type UserRepoInterface interface {
-	Login(domain Domain, ctx context.Context) (Domain, error)
-	Register(domain Domain, ctx context.Context) (Domain, error)
+	Login(domain User, ctx context.Context) (User, error)
+	Register(domain User, ctx context.Context) (User, error)
 }

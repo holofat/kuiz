@@ -2,6 +2,7 @@ package answers
 
 import (
 	"context"
+	"errors"
 	"time"
 )
 
@@ -18,6 +19,9 @@ func NewUsecase(answerRepo AnswerRepoInterface, contextTimeout time.Duration) An
 }
 
 func (uc *AnswerUseCase) CreateAnswer(domain Answer, ctx context.Context) (Answer, error) {
+	if domain.Answer == "" {
+		return Answer{}, errors.New("answer must be filled")
+	}
 	answer, err := uc.repo.CreateAnswer(domain, ctx)
 
 	if err != nil {

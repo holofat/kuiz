@@ -19,6 +19,14 @@ import (
 	answerController "kuiz/controllers/answers"
 	answerRepo "kuiz/drivers/databases/answers"
 
+	participantUseCase "kuiz/business/participants"
+	participantController "kuiz/controllers/participants"
+	participantRepo "kuiz/drivers/databases/participants"
+
+	participantScoreUseCase "kuiz/business/participant_score"
+	participantScoreController "kuiz/controllers/participant_score"
+	participantScoreRepo "kuiz/drivers/databases/participant_score"
+
 	"kuiz/drivers/mysql"
 	"log"
 	"time"
@@ -43,7 +51,7 @@ func init() {
 }
 
 func dbMigrate(db *gorm.DB) {
-	db.AutoMigrate(&userRepo.User{}, &quizRepo.Quiz{}, &questionRepo.Question{}, &answerRepo.Answer{})
+	db.AutoMigrate(&userRepo.User{}, &quizRepo.Quiz{}, &questionRepo.Question{}, &answerRepo.Answer{}, &participantRepo.Participant{}, &participantScoreRepo.ParticipantScore{})
 }
 
 func main() {
@@ -78,11 +86,21 @@ func main() {
 	answerUseCaseInterface := answerUseCase.NewUsecase(answerRepoInterface, timeoutContext)
 	answerControllerInterface := answerController.NewAnswerController(answerUseCaseInterface)
 
+	participantRepoInterface := participantRepo.NewParticipantRepository(db)
+	participantUseUseCaseInterface := participantUseCase.NewUsecase(participantRepoInterface, timeoutContext)
+	participantControllerInterface := participantController.NewParticipantController(participantUseUseCaseInterface)
+
+	participantScoreRepoInterface := participantScoreRepo.NewParticipantRepository(db)
+	participantScoreUseCaseInterface := participantScoreUseCase.NewUseCase(participantScoreRepoInterface, timeoutContext)
+	participantScoreControllerInterface := participantScoreController.NewParticipantController(participantScoreUseCaseInterface)
+
 	routesInit := routes.RouteControllerList{
-		UserController:     *userControllerInterface,
-		QuizController:     *quizControllerInterface,
-		QuestionController: *questionControllerInterface,
-		AnswerController:   *answerControllerInterface,
+		UserController:             *userControllerInterface,
+		QuizController:             *quizControllerInterface,
+		QuestionController:         *questionControllerInterface,
+		AnswerController:           *answerControllerInterface,
+		ParticipantController:      *participantControllerInterface,
+		ParticipantScoreController: *participantScoreControllerInterface,
 	}
 
 	routesInit.RouteRegister(r)
