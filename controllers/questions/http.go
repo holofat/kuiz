@@ -51,7 +51,7 @@ func (controller *QuestionController) DeleteQuestion(c *gin.Context) {
 
 func (controller *QuestionController) GetQuestion(c *gin.Context) {
 	ctx := c.Request.Context()
-	id := c.Param("id_question")
+	id := c.Param("id_quiz")
 
 	questionList, err := controller.usecase.GetQuestion(id, ctx)
 	if err != nil {
