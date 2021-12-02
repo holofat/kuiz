@@ -21,7 +21,7 @@ func NewQuizRepository(gormDb *gorm.DB) quizzes.QuizRepoInterface {
 func (repo *QuizRepository) GetQuiz(id string, ctx context.Context) (quizzes.Domain, error) {
 	var quiz Quiz
 
-	err := repo.db.Preload("Question").Where("id = ?", id).First(&quiz).Error
+	err := repo.db.Preload("Answer").Preload("Question").Where("id = ?", id).First(&quiz).Error
 	if err != nil {
 		if err != gorm.ErrRecordNotFound {
 			return quizzes.Domain{}, errors.New("id is invalid")

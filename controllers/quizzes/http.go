@@ -23,7 +23,7 @@ func NewQuizController(uc quizzes.QuizUsecaseInterface) *QuizController {
 
 func (controller *QuizController) GetQuiz(c *gin.Context) {
 	ctx := c.Request.Context()
-	id := c.Param("id")
+	id := c.Param("id_quiz")
 
 	quiz, err := controller.usecase.GetQuiz(id, ctx)
 	if err != nil {
