@@ -12,12 +12,12 @@ import (
 )
 
 var userRepoInterfaceMock mocks.UserRepoInterface
-var UserUsecaseInterface users.UserUsecaseInterface
-var userLoginDataDummy users.Domain
+var userUsecaseInterface users.UserUsecaseInterface
+var userLoginDataDummy users.User
 
 func setup() {
-	UserUsecaseInterface = users.NewUsecase(&userRepoInterfaceMock, time.Hour*1)
-	userLoginDataDummy = users.Domain{
+	userUsecaseInterface = users.NewUsecase(&userRepoInterfaceMock, time.Hour*1)
+	userLoginDataDummy = users.User{
 		Id:       1,
 		FullName: "john doe",
 		Email:    "john@doe.com",
@@ -28,50 +28,49 @@ func setup() {
 
 func TestLogin(t *testing.T) {
 	setup()
-	t.Run("Success Login", func(t *testing.T) {
-		status := "Success Login"
-		userRepoInterfaceMock.On("Login", mock.AnythingOfType("users.Domain"), mock.Anything).Return(status, nil).Once()
 
-		var requestLoginDomain = users.Domain{
+	t.Run("Success Login", func(t *testing.T) {
+		userRepoInterfaceMock.On("Login", mock.AnythingOfType("users.User"), mock.Anything).Return(userLoginDataDummy, nil).Once()
+		var requestLoginDomain = users.User{
 			Email:    "john@doe.com",
 			Password: "123",
 		}
-		domain, err := UserUsecaseInterface.Login(requestLoginDomain, context.Background())
+		domain, err := userUsecaseInterface.Login(requestLoginDomain, context.Background())
 
 		assert.Equal(t, nil, err)
-		assert.Equal(t, status, domain)
+		assert.Equal(t, userLoginDataDummy, domain)
 	})
 
 	t.Run("Login with Email Empty", func(t *testing.T) {
-		var requestLoginDomain = users.Domain{
+		var requestLogin = users.User{
 			Email:    "",
 			Password: "123",
 		}
-		domain, err := UserUsecaseInterface.Login(requestLoginDomain, context.Background())
+		domain, err := userUsecaseInterface.Login(requestLogin, context.Background())
 
-		assert.Equal(t, "Email is empty", err.Error())
-		assert.Equal(t, "error", domain)
+		assert.Equal(t, "email is empty", err.Error())
+		assert.Equal(t, requestLogin, domain)
 	})
 
 	t.Run("Login with Password Empty", func(t *testing.T) {
-		var requestLoginDomain = users.Domain{
+		var requestLogin = users.User{
 			Email:    "john@doe.com",
 			Password: "",
 		}
-		domain, err := UserUsecaseInterface.Login(requestLoginDomain, context.Background())
+		domain, err := userUsecaseInterface.Login(requestLogin, context.Background())
 
-		assert.Equal(t, "Password is empty", err.Error())
-		assert.Equal(t, "error", domain)
+		assert.Equal(t, "password is empty", err.Error())
+		assert.Equal(t, requestLogin, domain)
 	})
 
 	t.Run("Login with Password and Email Empty", func(t *testing.T) {
-		var requestLoginDomain = users.Domain{
+		var requestLoginDomain = users.User{
 			Email:    "",
 			Password: "",
 		}
-		domain, err := UserUsecaseInterface.Login(requestLoginDomain, context.Background())
+		domain, err := userUsecaseInterface.Login(requestLoginDomain, context.Background())
 
-		assert.Equal(t, "Email and Password must be filled", err.Error())
-		assert.Equal(t, "error", domain)
+		assert.Equal(t, "email and password must be filled", err.Error())
+		assert.Equal(t, requestLoginDomain, domain)
 	})
 }
