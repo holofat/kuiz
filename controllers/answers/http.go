@@ -40,7 +40,7 @@ func (controller *AnswerController) CreateAnswer(c *gin.Context) {
 func (controller *AnswerController) DeleteAnswer(c *gin.Context) {
 	ctx := c.Request.Context()
 	var Answer request.DeleteAnswer
-	id := c.Param("id")
+	id := c.Param("id_answer")
 
 	_, err := controller.uc.DeleteAnswer(id, *Answer.ToDomain(), ctx)
 	if err != nil {

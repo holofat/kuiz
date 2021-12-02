@@ -41,26 +41,25 @@ func (controller *QuizController) CreateQuiz(c *gin.Context) {
 	extractedUserId, err := helper.ExtractTokenAuth(c.Request)
 	if err != nil {
 		controllers.ErrorResponse(c, http.StatusUnauthorized, "unauthorized", err)
-		c.Abort()
+	} else {
+		if err := c.ShouldBindJSON(&createQuiz); err != nil {
+			controllers.ErrorResponse(c, http.StatusBadRequest, "error binding", err)
+		} else {
+			createQuiz.AuthorID = extractedUserId
+			quiz, err := controller.usecase.CreateQuiz(*createQuiz.ToDomain(), ctx)
+			if err != nil {
+				controllers.ErrorResponse(c, http.StatusInternalServerError, "error in body", err)
+			} else {
+				controllers.SuccessResponse(c, response.FromDomain(quiz))
+			}
+		}
 	}
-
-	if err := c.ShouldBindJSON(&createQuiz); err != nil {
-		controllers.ErrorResponse(c, http.StatusBadRequest, "error binding", err)
-		c.Abort()
-	}
-	createQuiz.AuthorID = extractedUserId
-	quiz, err := controller.usecase.CreateQuiz(*createQuiz.ToDomain(), ctx)
-	if err != nil {
-		controllers.ErrorResponse(c, http.StatusInternalServerError, "error in body", err)
-		c.Abort()
-	}
-	controllers.SuccessResponse(c, response.FromDomain(quiz))
 }
 
 func (controller *QuizController) DeleteQuiz(c *gin.Context) {
 	ctx := c.Request.Context()
 	var quiz request.DeleteQuiz
-	id := c.Param("id")
+	id := c.Param("id_quiz")
 	extractedUserId, errAuth := helper.ExtractTokenAuth(c.Request)
 	if errAuth != nil {
 		controllers.ErrorResponse(c, http.StatusUnauthorized, "unauthorized", errAuth)

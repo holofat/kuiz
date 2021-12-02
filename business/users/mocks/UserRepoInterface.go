@@ -15,18 +15,18 @@ type UserRepoInterface struct {
 }
 
 // Login provides a mock function with given fields: domain, ctx
-func (_m *UserRepoInterface) Login(domain users.Domain, ctx context.Context) (users.Domain, error) {
+func (_m *UserRepoInterface) Login(domain users.User, ctx context.Context) (users.User, error) {
 	ret := _m.Called(domain, ctx)
 
-	var r0 users.Domain
-	if rf, ok := ret.Get(0).(func(users.Domain, context.Context) users.Domain); ok {
+	var r0 users.User
+	if rf, ok := ret.Get(0).(func(users.User, context.Context) users.User); ok {
 		r0 = rf(domain, ctx)
 	} else {
-		r0 = ret.Get(0).(users.Domain)
+		r0 = ret.Get(0).(users.User)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(users.Domain, context.Context) error); ok {
+	if rf, ok := ret.Get(1).(func(users.User, context.Context) error); ok {
 		r1 = rf(domain, ctx)
 	} else {
 		r1 = ret.Error(1)
@@ -36,18 +36,18 @@ func (_m *UserRepoInterface) Login(domain users.Domain, ctx context.Context) (us
 }
 
 // Register provides a mock function with given fields: domain, ctx
-func (_m *UserRepoInterface) Register(domain users.Domain, ctx context.Context) (users.Domain, error) {
+func (_m *UserRepoInterface) Register(domain users.User, ctx context.Context) (users.User, error) {
 	ret := _m.Called(domain, ctx)
 
-	var r0 users.Domain
-	if rf, ok := ret.Get(0).(func(users.Domain, context.Context) users.Domain); ok {
+	var r0 users.User
+	if rf, ok := ret.Get(0).(func(users.User, context.Context) users.User); ok {
 		r0 = rf(domain, ctx)
 	} else {
-		r0 = ret.Get(0).(users.Domain)
+		r0 = ret.Get(0).(users.User)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(users.Domain, context.Context) error); ok {
+	if rf, ok := ret.Get(1).(func(users.User, context.Context) error); ok {
 		r1 = rf(domain, ctx)
 	} else {
 		r1 = ret.Error(1)

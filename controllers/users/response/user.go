@@ -17,7 +17,7 @@ type UserResponse struct {
 	Password  string         `json:"password"`
 }
 
-func FromDomain(domain users.Domain) UserResponse {
+func FromDomain(domain users.User) UserResponse {
 	return UserResponse{
 		Id:        domain.Id,
 		CreatedAt: domain.CreatedAt,

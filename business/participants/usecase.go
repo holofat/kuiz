@@ -17,8 +17,8 @@ func NewUsecase(ParticipantRepo ParticipantRepoInterface, contextTimeout time.Du
 	}
 }
 
-func (usecase *ParticipantUseCase) AnswerQuestion(domain Participant, ctx context.Context) error {
-	err := usecase.repo.AnswerQuestion(domain, ctx)
+func (usecase *ParticipantUseCase) AnswerQuestion(idUser int, idQuiz int, idAnswer int, idQuestion int, ctx context.Context) error {
+	err := usecase.repo.AnswerQuestion(idUser, idQuiz, idAnswer, idQuestion, ctx)
 	if err != nil {
 		return err
 	}
