@@ -31,9 +31,10 @@ func (controller *UserController) Register(c *gin.Context) {
 		user, err := controller.usecase.Register(*userRegister.ToDomain(), ctx)
 
 		if err != nil {
-			controllers.ErrorResponse(c, http.StatusInternalServerError, "error in body", err)
+			controllers.ErrorResponse(c, http.StatusBadRequest, err.Error(), err)
+		} else {
+			controllers.SuccessResponse(c, response.FromDomain(user))
 		}
-		controllers.SuccessResponse(c, response.FromDomain(user))
 	}
 }
 
@@ -44,24 +45,20 @@ func (controller *UserController) Login(c *gin.Context) {
 	err := c.ShouldBindJSON(&userLogin)
 	if err != nil {
 		controllers.ErrorResponse(c, http.StatusBadRequest, "error binding", err)
-		c.Abort()
 	}
 
 	user, err := controller.usecase.Login(*userLogin.ToDomain(), ctx)
 	if err != nil {
-		controllers.ErrorResponse(c, http.StatusUnauthorized, err.Error(), err)
-		c.Abort()
+		controllers.ErrorResponse(c, http.StatusBadRequest, err.Error(), err)
+	} else {
+		var authD helper.AuthDetails
+		authD.UserId = user.Id
+
+		token, loginErr := helper.GenerateToken(authD)
+		if loginErr != nil {
+			controllers.ErrorResponse(c, http.StatusForbidden, loginErr.Error(), loginErr)
+		} else {
+			controllers.SuccessResponse(c, token)
+		}
 	}
-
-	var authD helper.AuthDetails
-	authD.UserId = user.Id
-
-	token, loginErr := helper.GenerateToken(authD)
-	if loginErr != nil {
-		controllers.ErrorResponse(c, http.StatusForbidden, loginErr.Error(), loginErr)
-		c.Abort()
-	}
-
-	controllers.SuccessResponse(c, token)
-
 }

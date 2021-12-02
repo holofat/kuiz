@@ -6,15 +6,13 @@ import (
 
 type UserRegister struct {
 	FullName string `json:"fullname" binding:"required"`
-	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 }
 
-func (user *UserRegister) ToDomain() *users.Domain {
-	return &users.Domain{
+func (user *UserRegister) ToDomain() *users.User {
+	return &users.User{
 		FullName: user.FullName,
-		Username: user.Username,
 		Password: user.Password,
 		Email:    user.Email,
 	}

@@ -39,7 +39,7 @@ func (controller *QuestionController) CreateQuestion(c *gin.Context) {
 
 func (controller *QuestionController) DeleteQuestion(c *gin.Context) {
 	ctx := c.Request.Context()
-	id := c.Param("id")
+	id := c.Param("id_question")
 
 	err := controller.usecase.DeleteQuestion(id, ctx)
 	if err != nil {
@@ -51,7 +51,7 @@ func (controller *QuestionController) DeleteQuestion(c *gin.Context) {
 
 func (controller *QuestionController) GetQuestion(c *gin.Context) {
 	ctx := c.Request.Context()
-	id := c.Param("id")
+	id := c.Param("id_question")
 
 	questionList, err := controller.usecase.GetQuestion(id, ctx)
 	if err != nil {
