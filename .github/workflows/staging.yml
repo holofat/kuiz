@@ -53,7 +53,7 @@ jobs:
             StrictHostKeyChecking=no
           END
       - name: connect ec2, remove container, pull from registry, end start
-        run: ssh development 'docker rm -f $(docker ps -a -q)' || true && docker pull mferdiyanzah/kuiz:latest && docker run -d -p 8080:8080 --name kuiz mferdiyanzah/kuiz:latest
+        run: ssh development docker rm -f $(docker ps -a -q) || true && docker pull mferdiyanzah/kuiz:latest && docker run -d -p 8080:8080 --name kuiz mferdiyanzah/kuiz:latest
 
 
 
