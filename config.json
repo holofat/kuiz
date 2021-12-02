@@ -1,7 +1,7 @@
 {
   "debug": true,
   "server": {
-    "address": ":8080"
+    "address": ":8000"
   },
   "context":{
     "timeout":2
@@ -13,4 +13,3 @@
       "pass": "Ketuakelas_6SD",
       "name": "kuiz"
   }
-}
