@@ -20,6 +20,7 @@ func (q Question) ToDomain() questions.Question {
 		CreatedAt:        q.CreatedAt,
 		QuizId:           q.QuizId,
 		QuestionSentence: q.QuestionSentence,
+		Answer:           q.Answer,
 	}
 }
 
@@ -28,13 +29,7 @@ type listQuestion []questions.Question
 func (q *listQuestion) ToDomainList() []questions.Question {
 	var list []questions.Question
 	for _, k := range *q {
-		tempResp := questions.Question{
-			Id:               k.Id,
-			QuestionSentence: k.QuestionSentence,
-			QuizId:           k.QuizId,
-			CreatedAt:        k.CreatedAt,
-		}
-		list = append(list, tempResp)
+		list = append(list, k)
 	}
 	return list
 }
@@ -44,5 +39,6 @@ func FromDomain(domain questions.Question) Question {
 		Id:               domain.Id,
 		QuizId:           domain.QuizId,
 		QuestionSentence: domain.QuestionSentence,
+		Answer:           domain.Answer,
 	}
 }
