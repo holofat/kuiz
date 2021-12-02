@@ -7,10 +7,9 @@
     "timeout":2
   },
   "database": {
-      "host": "localhost",
+      "host": "kuiz.cnn0g1oig3dc.ap-southeast-1.rds.amazonaws.com",
       "port": "3306",
-      "user": "root",
-      "pass": "1234",
+      "user": "admin",
+      "pass": "Ketuakelas_6SD",
       "name": "kuiz"
   }
-}
