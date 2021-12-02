@@ -10,17 +10,27 @@ type ParticipantScoreUsecase struct {
 	ctx  time.Duration
 }
 
-func NewUseCase(PartipantRepo ParticipantScoreRepoInterface, contextTimeout time.Duration) ParticipantScoreUseCaseInterface {
+func NewUseCase(ParticipantRepo ParticipantScoreRepoInterface, contextTimeout time.Duration) ParticipantScoreUseCaseInterface {
 	return &ParticipantScoreUsecase{
-		repo: PartipantRepo,
+		repo: ParticipantRepo,
 		ctx:  contextTimeout,
 	}
 }
 
-func (usecase *ParticipantScoreUsecase) FetchData(idQuiz int, idAuthor int, ctx context.Context) ([]ParticipantScore, error) {
-	participantScoreList, err := usecase.repo.FetchData(idQuiz, idAuthor, ctx)
+func (usecase *ParticipantScoreUsecase) FetchAllData(idQuiz int, idAuthor int, ctx context.Context) ([]ParticipantScore, error) {
+	participantScoreList, err := usecase.repo.FetchAllData(idQuiz, idAuthor, ctx)
 	if err != nil {
 		return []ParticipantScore{}, err
 	}
 	return participantScoreList, nil
+}
+
+func (usecase *ParticipantScoreUsecase) FetchDataByIdParticipant(idQuiz int, idParticipant int, ctx context.Context) (ParticipantScore, error) {
+	participantScore, err := usecase.repo.FetchDataByIdParticipant(idQuiz, idParticipant, ctx)
+
+	if err != nil {
+		return ParticipantScore{}, err
+	}
+
+	return participantScore, nil
 }
