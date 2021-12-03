@@ -11,7 +11,7 @@ type Question struct {
 	CreatedAt        time.Time
 	QuizId           uint
 	QuestionSentence string
-	Answer           []answers.Answer `gorm:"foreignKey:question_id"`
+	Answer           []answers.Answer `gorm:"foreignKey:QuestionId"`
 }
 
 func (q Question) ToDomain() questions.Question {

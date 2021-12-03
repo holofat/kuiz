@@ -28,10 +28,9 @@ func (controller *QuizController) GetQuiz(c *gin.Context) {
 	quiz, err := controller.usecase.GetQuiz(id, ctx)
 	if err != nil {
 		controllers.ErrorResponse(c, http.StatusInternalServerError, "internal error", err)
-		c.Abort()
+	} else {
+		controllers.SuccessResponse(c, response.FromDomain(quiz))
 	}
-
-	controllers.SuccessResponse(c, response.FromDomain(quiz))
 }
 
 func (controller *QuizController) CreateQuiz(c *gin.Context) {

@@ -12,7 +12,7 @@ type Quiz struct {
 	TitleQuiz string
 	GivenTime uint
 	AuthorId  uint
-	Question  []questions.Question `gorm:"foreignKey:QuizId"`
+	Question  []questions.Question `gorm:"foreignKey:quiz_id"`
 }
 
 func (quiz Quiz) ToDomain() quizzes.Domain {
